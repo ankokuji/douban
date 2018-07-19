@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "es2016",
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "lib",
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true
+  },
+  "exclude": ["node_modules"]
+}

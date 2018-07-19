@@ -1,0 +1,19 @@
+{
+  "name": "douban",
+  "version": "0.1.0",
+  "author": "moritaka",
+  "dependencies": {
+    "@types/node": "^10.5.2",
+    "axios": "^0.18.0",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "search": "ts-node index.ts",
+    "anal": "ts-node analyze.ts"
+  },
+  "repository": {
+    "github": "git@github.com:ankokuji/douban.git"
+  }
+}
