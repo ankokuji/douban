@@ -2,4 +2,4 @@ import searchAllAndSave from "./searchAllAndSave";
 
 import analyze from "./analyze";
 
-searchAllAndSave("小津安二郎", "xiaojin");
+searchAllAndSave("名侦探柯南", "kenan");

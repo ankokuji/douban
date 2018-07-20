@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
-const axios = require("axios");
+import * as fs from "fs";
+import * as path from "path";
+import axios from "axios";
 
-import { axiosConfig } from "./config";
+import { axiosConfig, STORAGE_PATH } from "./config";
 
 const count = 20;
 
@@ -69,7 +69,11 @@ async function searchAllAndSave(text: string, filename?: string) {
 
   const json = JSON.stringify(subjects);
 
-  const targetPath = path.resolve("./" + filename + ".txt");
+  const targetPath = path.join(STORAGE_PATH, "./" + filename + ".txt");
+
+  if(!fs.existsSync(STORAGE_PATH)) {
+    fs.mkdirSync(STORAGE_PATH);
+  }
 
   fs.writeFileSync(targetPath, json);
 }

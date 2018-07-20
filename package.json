@@ -5,6 +5,10 @@
   "dependencies": {
     "@types/node": "^10.5.2",
     "axios": "^0.18.0",
+    "chalk": "^2.4.1",
+    "cli-table": "^0.3.1",
+    "cli-table2": "^0.2.0",
+    "immutable": "^3.8.2",
     "ts-node": "^7.0.0",
     "typescript": "^2.9.2"
   },
