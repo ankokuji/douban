@@ -1,4 +1,4 @@
-export interface IDoubanSubjects {
+interface IDoubanSubjects {
   id: string;
   title: string;
   original_title: string;

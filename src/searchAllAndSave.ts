@@ -1,23 +1,25 @@
 import * as fs from "fs";
 import * as path from "path";
 import axios from "axios";
-
 import { axiosConfig, STORAGE_PATH } from "./config";
 
+// Global config
 const count = 20;
-
 const apiBase = "https://api.douban.com";
 
-async function search(text, page = 0) {
+/**
+ * Fetch douban api.
+ *
+ * @param {string} text
+ * @param {number} [page=0]
+ * @returns
+ */
+async function fetchSearchApi(text: string, page = 0) {
   const searchPath = `/v2/movie/search?q=${text}&start=${page * 20}`;
-
   const questPath = encodeURI(apiBase + searchPath);
-
   try {
     const res = await axios.get(questPath, axiosConfig);
-
     const data = res.data;
-
     return {
       total: data.total,
       subjects: data.subjects
@@ -36,14 +38,11 @@ async function getAllItem(text: string) {
   let totalCount = 1;
   let res: any[] = [];
   while (page * count < totalCount) {
-    const {total, subjects} = await search(text, page);
-
+    const {total, subjects} = await fetchSearchApi(text, page);
     if (totalCount === 1) {
       totalCount = total;
     }
-
     res = res.concat(subjects);
-
     page++;
   }
 
@@ -58,24 +57,25 @@ async function getAllItem(text: string) {
   return res;
 }
 
-async function searchAllAndSave(text: string, filename?: string) {
-  if (!filename) {
-    filename = text;
-  }
-
+/**
+ * Search and return all results.
+ *
+ * @param {string} text Search key word.
+ * @param {string} [filename]
+ */
+async function searchAllAndSave(text: string, filename?: string): Promise<any> {
   const searchTarget = text;
-
   const subjects = await getAllItem(searchTarget);
-
-  const json = JSON.stringify(subjects);
-
-  const targetPath = path.join(STORAGE_PATH, "./" + filename + ".txt");
-
-  if(!fs.existsSync(STORAGE_PATH)) {
-    fs.mkdirSync(STORAGE_PATH);
+  // If filename valid then wirte data to file.
+  if(filename) {
+    const json = JSON.stringify(subjects);
+    const targetPath = path.join(STORAGE_PATH, "./" + filename + ".txt");
+    if(!fs.existsSync(STORAGE_PATH)) {
+      fs.mkdirSync(STORAGE_PATH);
+    }
+    fs.writeFileSync(targetPath, json);
   }
-
-  fs.writeFileSync(targetPath, json);
+  return subjects;
 }
 
 export default searchAllAndSave;

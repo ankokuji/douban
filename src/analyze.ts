@@ -1,49 +1,60 @@
+/// <reference path="../types/index.d.ts" />
+
 import * as fs from "fs";
 import * as path from "path";
 import Immutable from "immutable";
-
 import Table from "cli-table2";
-
-import { IDoubanSubjects } from "./types/index";
-
 import { prependListener } from "cluster";
-
 import { STORAGE_PATH } from "./config";
 
 const cuttedLength = 30;
-export default function analyze(filename: string, filterText?: string) {
+
+/**
+ * Read file and analyze content.
+ *
+ * @export
+ * @param {string} filename
+ * @param {string} [filterText]
+ */
+export function analyzeFile(filename: string, filterText?: string) {
+  const file = fs.readFileSync(path.join(STORAGE_PATH, filename));
+  const subjects: IDoubanSubjects[] = JSON.parse(file.toString());
+  analyzeByMemory(subjects, filterText);
+}
+
+
+/**
+ * Process data from douban in memory and print.
+ *
+ * @export
+ * @param {IDoubanSubjects[]} subjects
+ * @param {(string | undefined)} [filterText]
+ */
+export function analyzeByMemory(subjects: IDoubanSubjects[], filterText?: string | undefined) {
   const table = new Table({
     head: ["title", "rating", "year", "link"]
   });
-
-  const file = fs.readFileSync(path.join(STORAGE_PATH, filename));
-
-  const subjects: IDoubanSubjects[] = JSON.parse(file.toString());
 
   const sorted = subjects
     .filter(subject => {
       if (filterText) {
         return (subject.title as string).indexOf(filterText) >= 0;
-      } else {
+      }
+      else {
         return true;
       }
     })
     .map((subject) => {
-
       subject.original_title = getCuttedString(subject.original_title, cuttedLength);
       return subject;
     })
     .sort((pre, after) => {
       // 评分从高到低
-      return -(
-        pre.rating.average - after.rating.average
-      );
+      return -(pre.rating.average - after.rating.average);
     });
-
   sorted.forEach(subject => {
     // console.log(subject.title, subject.rating.average, subject.year);
     // console.log(subject.alt);
-
     table.push([
       subject.original_title,
       subject.rating.average,
@@ -51,7 +62,6 @@ export default function analyze(filename: string, filterText?: string) {
       subject.alt
     ]);
   });
-
   console.log(table.toString());
 }
 
@@ -86,5 +96,3 @@ function getCuttedString(val: string, cuttedLength: number): string {
   }
   return val;
 }
-
-analyze("kenan.txt", "名侦探柯南");

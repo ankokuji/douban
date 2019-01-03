@@ -1,7 +1,8 @@
 {
-  "name": "douban",
+  "name": "dbmovie",
   "version": "0.1.0",
-  "author": "moritaka",
+  "description": "A CLI tool to search douban movie and print in terminal.",
+  "author": "huguang",
   "dependencies": {
     "@types/node": "^10.5.2",
     "axios": "^0.18.0",
@@ -9,13 +10,16 @@
     "cli-table": "^0.3.1",
     "cli-table2": "^0.2.0",
     "immutable": "^3.8.2",
+    "yargs": "^12.0.5"
+  },
+  "devDependencies": {
     "ts-node": "^7.0.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.2.2"
   },
   "scripts": {
-    "tsc": "tsc",
-    "search": "ts-node index.ts",
-    "anal": "ts-node analyze.ts"
+    "compile": "tsc",
+    "search": "ts-node ./test/index.ts",
+    "anal": "ts-node ./test/analyze.ts"
   },
   "repository": {
     "github": "git@github.com:ankokuji/douban.git"
