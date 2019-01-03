@@ -18,7 +18,7 @@
   },
   "scripts": {
     "compile": "tsc",
-    "search": "ts-node ./test/index.ts",
+    "search": "ts-node ./test/search.ts",
     "anal": "ts-node ./test/analyze.ts"
   },
   "repository": {

@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import axios from "axios";
 import { axiosConfig, STORAGE_PATH } from "./config";
+import chalk from "chalk";
 
 // Global config
 const count = 20;
@@ -47,10 +48,10 @@ async function getAllItem(text: string) {
   }
 
   if (totalCount === res.length) {
-    console.log(`获取所有"${text}"搜索结果${totalCount}条成功!!!`);
+    console.log(chalk.green(`\n获取所有"${text}"搜索结果${totalCount}条成功!!!`));
   } else {
     console.log(
-      `所有"${text}"搜索结果有${totalCount}条，获取到${res.length}条`
+      chalk.green(`\n所有"${text}"搜索结果有${totalCount}条，获取到${res.length}条`)
     );
   }
 
